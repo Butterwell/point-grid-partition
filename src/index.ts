@@ -62,12 +62,17 @@ export function partitionedPoints(points: Array<Point>, bBox: BBox, partitionsPe
   // Linear array of empty arrays of partitions*partions size
   const grouped = Array.from(Array<Array<Point>>(partitionsPerAxis*partitionsPerAxis), () => []);
 
-  points.forEach((p) => {
-    let i = Math.floor((p.x - bBox.x)/step)  // + halfStep?
-    let j = Math.floor((p.y - bBox.y)/step)  // + halfStep?
-    console.log(i, j)
-    let index = j*partitionsPerAxis + i
-    console.log(index, grouped.length)
+  points.forEach((p, i) => {
+    let xx = Math.floor((p.x - bBox.x)/step)  // + halfStep?
+    let x = xx == partitionsPerAxis ? xx - 1 : xx // Edge case on maximum... nudge maximum size?
+    let yy = Math.floor((p.y - bBox.y)/step)  // + halfStep?
+    let y = yy == partitionsPerAxis ? yy - 1 : yy
+    let index = y*partitionsPerAxis + x
+    if (index > grouped.length) {
+      console.log(i, x, y)
+      console.log(p)
+      console.log(bBox)
+    }
     let point: Point = {x: p.x, y: p.y}
     grouped[index] = [...grouped[index], point]
   })
