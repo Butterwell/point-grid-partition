@@ -1,0 +1,27 @@
+{
+  "name": "@butterwell/point-grid-partition",
+  "version": "0.0.1",
+  "description": "Generate partitioned points from svg",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "texture"
+  ],
+  "author": "Christopher Michael Buck",
+  "readme": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Butterwell/point-grid-partition.git"
+  },
+  "homepage": "https://github.io/Butterwell/point-grid-partition",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "license": "Apache",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+  }
+}
