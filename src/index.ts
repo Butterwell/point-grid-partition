@@ -71,14 +71,6 @@ export function partitionedPoints(points: Array<Point>, bBox: BBox, partitionsPe
     let index = y*partitionsPerAxis + x
     let point: Point = {x: p.x, y: p.y}
     grouped[index] = [...grouped[index], point]
-    // if (ies[index].length > 1) {
-    //   let last = ies[index].slice(-1)[0]
-    //   if (last+1 != i) {
-    //     console.log('out of sequence')
-    //     console.log(last, i)
-    //   }
-    // }
-    // ies[index] = [...ies[index], i]
   })
 
   const bBoxes = Array.from(Array<BBox>(partitionsPerAxis*partitionsPerAxis), (_, i) => {
@@ -124,6 +116,28 @@ export function badlyPartitioned(points: Array<Point>, bBox: BBox, partitionsPer
   const grouped = bad.grouped 
   return { shape, bBoxes, grouped }
 }
+
+function sequential(integers: Array<number>): boolean {
+  if (integers.length <= 1) return true
+  for (let i = 1; i < integers.length; i++) {
+    if ((integers[i] != integers[i-1]+1)
+     && (integers[i] != integers[i-1]-1)) return false
+  }
+  return true
+}
+
+export function outOfSequence(partitioned: Partitions) : Partitions {
+  let bad = partitioned.grouped.reduce((prev: Partitions, indexes: Array<number>, i: number) => {
+    if (sequential(indexes)) return prev
+    let result = {
+      shape: prev.shape,
+      bBoxes: [...prev.bBoxes, partitioned.bBoxes[i]],
+      grouped: [...prev.grouped, indexes]
+    }
+    return result
+  }, { shape: partitioned.shape, bBoxes: [], grouped: []})
+  return bad
+} 
 
 function zeroOrThree(indexes: Array<number>): Array<number> {
   if (indexes.length < 3) return []
