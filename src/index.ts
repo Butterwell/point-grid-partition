@@ -69,8 +69,7 @@ export function partitionedPoints(points: Array<Point>, bBox: BBox, partitionsPe
     let yy = Math.floor((p.y - bBox.y)/step)  // + halfStep?
     let y = yy == partitionsPerAxis ? yy - 1 : yy
     let index = y*partitionsPerAxis + x
-    let point: Point = {x: p.x, y: p.y}
-    grouped[index] = [...grouped[index], point]
+    grouped[index] = [...grouped[index], i]
   })
 
   const bBoxes = Array.from(Array<BBox>(partitionsPerAxis*partitionsPerAxis), (_, i) => {
